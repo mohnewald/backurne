@@ -189,7 +189,7 @@ class Backup:
 			with Lock(bck.dest):
 				for profile, value in profiles:
 					self.status_queue.put('add_item')
-					if not bck.check_profile(profile):
+					if not self.args.force and not bck.check_profile(profile):
 						self.status_queue.put('done_item')
 						continue
 
@@ -679,6 +679,7 @@ def get_args():
 	back.add_argument('--cluster', dest='cluster', nargs='?')
 	back.add_argument('--vmid', dest='vmid', nargs='?', type=int)
 	back.add_argument('--profile', dest='profile', nargs='?')
+	back.add_argument('--force', action='store_true')
 
 	sub.add_parser('precheck')
 	sub.add_parser('check')
